@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "532228618258",
+    "firebase_url": "https://umsvalahia-74dd7.firebaseio.com",
+    "project_id": "umsvalahia-74dd7",
+    "storage_bucket": "umsvalahia-74dd7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:532228618258:android:b0581af5f295d32b",
+        "android_client_info": {
+          "package_name": "com.zamfir.umsvalahia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "532228618258-pi6aed6amt9vikfon3l5pnu7jvdtko3v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zamfir.umsvalahia",
+            "certificate_hash": "ee8383f72a46220708bc1b2cbe628d7c372a1689"
+          }
+        },
+        {
+          "client_id": "532228618258-sr81rjvbfa80bgnjg1vkoa1l3dn33pmi.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "532228618258-sr81rjvbfa80bgnjg1vkoa1l3dn33pmi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIh065TXOD3349WDvt95QIThe7k38srO0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "532228618258-sr81rjvbfa80bgnjg1vkoa1l3dn33pmi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
