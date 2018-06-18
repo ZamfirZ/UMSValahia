@@ -45,31 +45,35 @@ public class MainActivity extends AppCompatActivity {
 
 
         mAdView.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                // Code to be executed when an ad finishes loading.
-            }
 
             @Override
-            public void onAdFailedToLoad(int errorCode) {
-                // Code to be executed when an ad request fails.
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                Toast.makeText(MainActivity.this, "onAdLoaded()", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onAdOpened() {
-                // Code to be executed when an ad opens an overlay that
-                // covers the screen.
-            }
-
-            @Override
-            public void onAdLeftApplication() {
-                // Code to be executed when the user has left the app.
+                super.onAdOpened();
+                Toast.makeText(MainActivity.this, "onAdOpened()", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onAdClosed() {
-                // Code to be executed when when the user is about to return
-                // to the app after tapping on an ad.
+                super.onAdClosed();
+                Toast.makeText(MainActivity.this, "onAdClosed()", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                super.onAdFailedToLoad(i);
+                Toast.makeText(MainActivity.this, "onAdFailedToLoad()", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                super.onAdLeftApplication();
+                Toast.makeText(MainActivity.this, "onAdLeftApplication()", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -79,6 +83,32 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this,"No Internet connection", Toast.LENGTH_LONG).show();
             finish(); //Calling this method to close this activity when internet is not available.
         }
+    }
+    @Override
+    public void onPause() {
+        // This method should be called in the parent Activity's onPause() method.
+        if (mAdView != null) {
+            mAdView.pause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // This method should be called in the parent Activity's onResume() method.
+        if (mAdView != null) {
+            mAdView.resume();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        // This method should be called in the parent Activity's onDestroy() method.
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
     }
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager conMan = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
