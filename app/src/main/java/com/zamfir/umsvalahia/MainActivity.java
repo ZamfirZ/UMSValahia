@@ -12,20 +12,24 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdLoader;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
-    private AdView mAdView;
     private WebView myWebView;
+    private static final String TAG = MainActivity.class.getName();
+    //......................................
+    private AdView mAdView;
+    //......................................
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        myWebView = (WebView)findViewById(R.id.webView);
+        myWebView = findViewById(R.id.webView);
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         myWebView.loadUrl("https://ums.valahia.ro");
@@ -34,15 +38,17 @@ public class MainActivity extends AppCompatActivity {
         webSettings.setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
         myWebView.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
         myWebView.setOnTouchListener(new WebViewTouchListener());
+        //.......................................................................................
         MobileAds.initialize(this,"ca-app-pub-4878467226249861~2374564902");
         mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
         mAdView.loadAd(adRequest);
         AdView adView = new AdView(this);
         adView.setAdSize(AdSize.SMART_BANNER);
         adView.setAdUnitId("ca-app-pub-4878467226249861/1496048766");
-
-
+        mAdView.setVisibility(View.VISIBLE);
 
         mAdView.setAdListener(new AdListener() {
 
@@ -50,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
             public void onAdLoaded() {
                 super.onAdLoaded();
                 Toast.makeText(MainActivity.this, "onAdLoaded()", Toast.LENGTH_SHORT).show();
+
+
             }
 
             @Override
@@ -68,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
             public void onAdFailedToLoad(int i) {
                 super.onAdFailedToLoad(i);
                 Toast.makeText(MainActivity.this, "onAdFailedToLoad()", Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
@@ -75,41 +84,19 @@ public class MainActivity extends AppCompatActivity {
                 super.onAdLeftApplication();
                 Toast.makeText(MainActivity.this, "onAdLeftApplication()", Toast.LENGTH_SHORT).show();
             }
+
         });
 
-
+//..................................................................................................................
 
         if(!isNetworkAvailable(this)) {
-            Toast.makeText(this,"No Internet connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No Internet connection", Toast.LENGTH_LONG).show();
             finish(); //Calling this method to close this activity when internet is not available.
         }
     }
-    @Override
-    public void onPause() {
-        // This method should be called in the parent Activity's onPause() method.
-        if (mAdView != null) {
-            mAdView.pause();
-        }
-        super.onPause();
-    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        // This method should be called in the parent Activity's onResume() method.
-        if (mAdView != null) {
-            mAdView.resume();
-        }
-    }
 
-    @Override
-    public void onDestroy() {
-        // This method should be called in the parent Activity's onDestroy() method.
-        if (mAdView != null) {
-            mAdView.destroy();
-        }
-        super.onDestroy();
-    }
+
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager conMan = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if(conMan.getActiveNetworkInfo() != null && conMan.getActiveNetworkInfo().isConnected())
@@ -117,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         else
             return false;
     }
+
     @Override
     public void onBackPressed() {
         if(myWebView.canGoBack()) {
