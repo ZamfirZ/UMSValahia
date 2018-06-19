@@ -12,16 +12,15 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdLoader;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 public class MainActivity extends AppCompatActivity{
 
+    private FirebaseAnalytics mFirebaseAnalytics;
     private WebView myWebView;
-    private static final String TAG = MainActivity.class.getName();
+    private static final String TAG = "MainActivity";
     //......................................
     private AdView mAdView;
     //......................................
@@ -29,6 +28,8 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         myWebView = findViewById(R.id.webView);
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -39,53 +40,27 @@ public class MainActivity extends AppCompatActivity{
         myWebView.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
         myWebView.setOnTouchListener(new WebViewTouchListener());
         //.......................................................................................
-        MobileAds.initialize(this,"ca-app-pub-4878467226249861~2374564902");
         mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .build();
+        AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
-        AdView adView = new AdView(this);
-        adView.setAdSize(AdSize.SMART_BANNER);
-        adView.setAdUnitId("ca-app-pub-4878467226249861/1496048766");
-        mAdView.setVisibility(View.VISIBLE);
-
         mAdView.setAdListener(new AdListener() {
 
             @Override
-            public void onAdLoaded() {
-                super.onAdLoaded();
-                Toast.makeText(MainActivity.this, "onAdLoaded()", Toast.LENGTH_SHORT).show();
-
-
-            }
-
-            @Override
-            public void onAdOpened() {
-                super.onAdOpened();
-                Toast.makeText(MainActivity.this, "onAdOpened()", Toast.LENGTH_SHORT).show();
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+                AdRequest adRequest = new AdRequest.Builder().build();
+                mAdView.loadAd(adRequest);
             }
 
             @Override
             public void onAdClosed() {
-                super.onAdClosed();
-                Toast.makeText(MainActivity.this, "onAdClosed()", Toast.LENGTH_SHORT).show();
+                // Code to be executed when when the user is about to return
+                // to the app after tapping on an ad.
+                AdRequest adRequest = new AdRequest.Builder().build();
+                mAdView.loadAd(adRequest);
             }
-
-            @Override
-            public void onAdFailedToLoad(int i) {
-                super.onAdFailedToLoad(i);
-                Toast.makeText(MainActivity.this, "onAdFailedToLoad()", Toast.LENGTH_SHORT).show();
-
-            }
-
-            @Override
-            public void onAdLeftApplication() {
-                super.onAdLeftApplication();
-                Toast.makeText(MainActivity.this, "onAdLeftApplication()", Toast.LENGTH_SHORT).show();
-            }
-
         });
+
 
 //..................................................................................................................
 
@@ -104,6 +79,7 @@ public class MainActivity extends AppCompatActivity{
         else
             return false;
     }
+
 
     @Override
     public void onBackPressed() {
