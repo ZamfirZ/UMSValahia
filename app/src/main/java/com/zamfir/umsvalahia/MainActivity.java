@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity{
     //......................................
     private AdView mAdView;
     //......................................
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,12 +34,32 @@ public class MainActivity extends AppCompatActivity{
         myWebView = findViewById(R.id.webView);
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        myWebView.loadUrl("https://ums.valahia.ro");
-        myWebView.setWebViewClient(new WebViewClient());
+
+        String url = "https://ums.valahia.ro";
+
+        myWebView.loadUrl(url);
+        myWebView.setWebViewClient(new WebViewClient(){
+            public void onPageFinished(WebView view, String url) {
+
+                super.onPageFinished(view, url);
+                view.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        myWebView.scrollTo(0, 0);
+                    }
+                }, 230);
+
+            }
+        });
+
+
+
         myWebView.setHorizontalScrollBarEnabled(false);
         webSettings.setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
         myWebView.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
         myWebView.setOnTouchListener(new WebViewTouchListener());
+
+
 
 
         //.......................................................................................
@@ -53,7 +74,6 @@ public class MainActivity extends AppCompatActivity{
         // get test ads on a physical device. e.g.
         // "Use AdRequest.Builder.addTestDevice("ABCDEF012345") to get test ads on this device."
         AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
 
         // Start loading the ad in the background.
@@ -66,39 +86,54 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onAdLoaded() {
                 super.onAdLoaded();
-                Toast.makeText(MainActivity.this, "onAdLoaded()", Toast.LENGTH_SHORT).show();
-            }
+                }
 
             @Override
             public void onAdOpened() {
                 super.onAdOpened();
-                Toast.makeText(MainActivity.this, "onAdOpened()", Toast.LENGTH_SHORT).show();
-            }
+                }
 
             @Override
             public void onAdClosed() {
                 super.onAdClosed();
-                Toast.makeText(MainActivity.this, "onAdClosed()", Toast.LENGTH_SHORT).show();
-            }
+                }
 
             @Override
             public void onAdFailedToLoad(int i) {
                 super.onAdFailedToLoad(i);
+
                 Toast.makeText(MainActivity.this, "onAdFailedToLoad()", Toast.LENGTH_SHORT).show();
+
+                mAdView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        mAdView = findViewById(R.id.adView);
+
+                        // Create an ad request. Check your logcat output for the hashed device ID to
+                        // get test ads on a physical device. e.g.
+                        AdRequest adRequest = new AdRequest.Builder()
+                                .build();
+
+                        // Start loading the ad in the background.
+                        mAdView.loadAd(adRequest);
+                    }
+                },5000);
+
             }
 
             @Override
             public void onAdLeftApplication() {
                 super.onAdLeftApplication();
-                Toast.makeText(MainActivity.this, "onAdLeftApplication()", Toast.LENGTH_SHORT).show();
-            }
+                }
         });
+
 
 //..................................................................................................................
 
         if(!isNetworkAvailable(this)) {
             Toast.makeText(this, "No Internet connection", Toast.LENGTH_LONG).show();
-            finish(); //Calling this method to close this activity when internet is not available.
+            finish();
         }
     }
 
@@ -111,6 +146,7 @@ public class MainActivity extends AppCompatActivity{
         else
             return false;
     }
+
 
 
     @Override
