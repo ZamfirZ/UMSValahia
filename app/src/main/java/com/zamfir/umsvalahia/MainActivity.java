@@ -10,6 +10,8 @@ import android.webkit.WebSettings.LayoutAlgorithm;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
+
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
@@ -39,9 +41,6 @@ public class MainActivity extends AppCompatActivity{
         myWebView.setOnTouchListener(new WebViewTouchListener());
 
 
-
-
-        myWebView.getSettings().setJavaScriptEnabled(true);
         //.......................................................................................
         // Initialize the Mobile Ads SDK.
         MobileAds.initialize(this, "ca-app-pub-4878467226249861~8776848389");
@@ -60,6 +59,40 @@ public class MainActivity extends AppCompatActivity{
         // Start loading the ad in the background.
         mAdView.loadAd(adRequest);
 
+
+
+        mAdView.setAdListener(new AdListener() {
+
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                Toast.makeText(MainActivity.this, "onAdLoaded()", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdOpened() {
+                super.onAdOpened();
+                Toast.makeText(MainActivity.this, "onAdOpened()", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdClosed() {
+                super.onAdClosed();
+                Toast.makeText(MainActivity.this, "onAdClosed()", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                super.onAdFailedToLoad(i);
+                Toast.makeText(MainActivity.this, "onAdFailedToLoad()", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                super.onAdLeftApplication();
+                Toast.makeText(MainActivity.this, "onAdLeftApplication()", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 //..................................................................................................................
 
