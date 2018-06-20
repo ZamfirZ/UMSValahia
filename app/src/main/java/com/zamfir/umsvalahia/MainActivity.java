@@ -99,6 +99,24 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onAdLoaded() {
                 super.onAdLoaded();
+                mAdView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        mAdView = findViewById(R.id.adView);
+
+                        // Create an ad request. Check your logcat output for the hashed device ID to
+                        // get test ads on a physical device. e.g.
+                        AdRequest adRequest = adRequest = new AdRequest.Builder()
+                                .addTestDevice("7990BE396A79332122243B061D9416A1") // mine
+                                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                                .build();
+
+
+                        // Start loading the ad in the background.
+                        mAdView.loadAd(adRequest);
+                    }
+                },5000);
                 }
 
             @Override
