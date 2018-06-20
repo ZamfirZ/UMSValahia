@@ -10,7 +10,6 @@ import android.webkit.WebSettings.LayoutAlgorithm;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
-
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -30,17 +29,15 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         myWebView = findViewById(R.id.webView);
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
-
         String url = "https://ums.valahia.ro";
 
         myWebView.loadUrl(url);
+
         myWebView.setWebViewClient(new WebViewClient(){
             public void onPageFinished(WebView view, String url) {
 
@@ -57,20 +54,10 @@ public class MainActivity extends AppCompatActivity{
         });
 
 
-
-//????????????????????????????????????????????????????????????????????????????????/ FOR SAVE INSTANCE
-        this.myWebView.getSettings().setDomStorageEnabled(true);
-        this.myWebView.getSettings().setJavaScriptEnabled(true);
-//????????????????????????????????????????????????????????????????????????????????/
-
-
-
         myWebView.setHorizontalScrollBarEnabled(false);
         webSettings.setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
         myWebView.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
         myWebView.setOnTouchListener(new WebViewTouchListener());
-
-
 
 
         //.......................................................................................
@@ -81,9 +68,7 @@ public class MainActivity extends AppCompatActivity{
         // values/strings.xml.
         mAdView = findViewById(R.id.adView);
 
-        // Create an ad request. Check your logcat output for the hashed device ID to
-        // get test ads on a physical device. e.g.
-        // "Use AdRequest.Builder.addTestDevice("ABCDEF012345") to get test ads on this device."
+        // Create an ad request.
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice("7990BE396A79332122243B061D9416A1") // mine
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
@@ -105,8 +90,7 @@ public class MainActivity extends AppCompatActivity{
 
                         mAdView = findViewById(R.id.adView);
 
-                        // Create an ad request. Check your logcat output for the hashed device ID to
-                        // get test ads on a physical device. e.g.
+                        // Create an ad request.
                         AdRequest adRequest = new AdRequest.Builder()
                                 .addTestDevice("7990BE396A79332122243B061D9416A1") // mine
                                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
@@ -116,7 +100,7 @@ public class MainActivity extends AppCompatActivity{
                         // Start loading the ad in the background.
                         mAdView.loadAd(adRequest);
                     }
-                },5000);
+                },10000);
                 }
 
             @Override
@@ -133,16 +117,13 @@ public class MainActivity extends AppCompatActivity{
             public void onAdFailedToLoad(int i) {
                 super.onAdFailedToLoad(i);
 
-                Toast.makeText(MainActivity.this, "onAdFailedToLoad()", Toast.LENGTH_SHORT).show();
-
                 mAdView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
 
                         mAdView = findViewById(R.id.adView);
 
-                        // Create an ad request. Check your logcat output for the hashed device ID to
-                        // get test ads on a physical device. e.g.
+                        // Create an ad request.
                         AdRequest adRequest = new AdRequest.Builder()
                                 .addTestDevice("7990BE396A79332122243B061D9416A1") // mine
                                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
