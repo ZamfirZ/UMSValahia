@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity{
 
         //.......................................................................................
         // Initialize the Mobile Ads SDK.
-        MobileAds.initialize(this, "ca-app-pub-4878467226249861~8776848389");
+        MobileAds.initialize(this, "ca-app-pub-4878467226249861~2740927225");
 
         // Gets the ad view defined in layout/ad_fragment.xml with ad unit ID set in
         // values/strings.xml.
@@ -85,6 +85,8 @@ public class MainActivity extends AppCompatActivity{
         // get test ads on a physical device. e.g.
         // "Use AdRequest.Builder.addTestDevice("ABCDEF012345") to get test ads on this device."
         AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("7990BE396A79332122243B061D9416A1") // mine
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
 
         // Start loading the ad in the background.
@@ -107,6 +109,25 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onAdClosed() {
                 super.onAdClosed();
+                mAdView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        mAdView = findViewById(R.id.adView);
+
+                        // Create an ad request. Check your logcat output for the hashed device ID to
+                        // get test ads on a physical device. e.g.
+                        AdRequest adRequest = adRequest = new AdRequest.Builder()
+                                .addTestDevice("7990BE396A79332122243B061D9416A1") // mine
+                                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                                .build();
+
+
+                        // Start loading the ad in the background.
+                        mAdView.loadAd(adRequest);
+                    }
+                },5000);
+
                 }
 
             @Override
@@ -123,8 +144,11 @@ public class MainActivity extends AppCompatActivity{
 
                         // Create an ad request. Check your logcat output for the hashed device ID to
                         // get test ads on a physical device. e.g.
-                        AdRequest adRequest = new AdRequest.Builder()
+                        AdRequest adRequest = adRequest = new AdRequest.Builder()
+                                .addTestDevice("7990BE396A79332122243B061D9416A1") // mine
+                                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                                 .build();
+
 
                         // Start loading the ad in the background.
                         mAdView.loadAd(adRequest);
