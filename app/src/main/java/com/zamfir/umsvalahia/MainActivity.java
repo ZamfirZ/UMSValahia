@@ -99,8 +99,10 @@ public class MainActivity extends AppCompatActivity{
 
                         // Start loading the ad in the background.
                         mAdView.loadAd(adRequest);
+
                     }
                 },60000);
+
                 }
 
             @Override
@@ -204,6 +206,7 @@ public class MainActivity extends AppCompatActivity{
                 //multi touch
                 return true;
             }
+
 
 
             switch (event.getAction()) {
