@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity{
                         myWebView.scrollTo(0, 0);
 
                     }
-                }, 300);
+                }, 100);
 
             }
         });
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity{
                         // Start loading the ad in the background.
                         mAdView.loadAd(adRequest);
                     }
-                },10000);
+                },60000);
                 }
 
             @Override
@@ -111,6 +111,23 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onAdClosed() {
                 super.onAdClosed();
+                mAdView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        mAdView = findViewById(R.id.adView);
+
+                        // Create an ad request.
+                        AdRequest adRequest = new AdRequest.Builder()
+                                .addTestDevice("7990BE396A79332122243B061D9416A1") // mine
+                                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                                .build();
+
+
+                        // Start loading the ad in the background.
+                        mAdView.loadAd(adRequest);
+                    }
+                },1000);
                 }
 
             @Override
@@ -156,10 +173,7 @@ public class MainActivity extends AppCompatActivity{
 
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager conMan = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if(conMan.getActiveNetworkInfo() != null && conMan.getActiveNetworkInfo().isConnected())
-            return true;
-        else
-            return false;
+        return conMan.getActiveNetworkInfo() != null && conMan.getActiveNetworkInfo().isConnected();
     }
 
 
